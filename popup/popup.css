@@ -1,0 +1,135 @@
+:root {
+  --bg: #ffffff;
+  --fg: #15141a;
+  --muted: #5b5b66;
+  --line: #e0e0e6;
+  --v4: #1b7f4f;
+  --v6: #1d4ed8;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1c1b22;
+    --fg: #fbfbfe;
+    --muted: #b1b1bd;
+    --line: #3a3944;
+    --v4: #4ade80;
+    --v6: #7aa2ff;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 18rem;
+  padding: 1rem;
+  background: var(--bg);
+  color: var(--fg);
+  font: 1rem/1.4 system-ui, sans-serif;
+}
+
+.host {
+  margin: 0 0 0.75rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  word-break: break-all;
+}
+
+.primary {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.25rem;
+}
+
+.chip {
+  flex: none;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.chip[data-family="ipv4"] {
+  background: var(--v4);
+}
+
+.chip[data-family="ipv6"] {
+  background: var(--v6);
+}
+
+.chip[data-family="unknown"] {
+  background: var(--muted);
+}
+
+.ip {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 1.05rem;
+  font-weight: 600;
+  word-break: break-all;
+}
+
+.note {
+  margin: 0 0 0.9rem;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+button.copy {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  background: transparent;
+  color: var(--fg);
+  font: inherit;
+  font-size: 0.85rem;
+}
+
+button.copy:active {
+  background: var(--line);
+}
+
+section {
+  border-top: 1px solid var(--line);
+  padding-top: 0.7rem;
+}
+
+h2 {
+  margin: 0 0 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+ul {
+  margin: 0 0 0.7rem;
+  padding: 0;
+  list-style: none;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.82rem;
+}
+
+li {
+  padding: 0.1rem 0;
+  word-break: break-all;
+}
+
+.empty {
+  font-family: system-ui, sans-serif;
+  color: var(--muted);
+}
+
+.status {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
