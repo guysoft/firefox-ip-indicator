@@ -6,10 +6,15 @@ is IPv6 (blue "6"), IPv4 (green "4"), or unknown (grey "?").
 
 Tapping the toolbar button opens a panel with:
 
-- the main address of the current tab, and where that number came from
-- every A and AAAA record the resolver returned for the domain
+- a colour-coded card naming the protocol in use, with the address on it —
+  tap the address to copy it
+- where that address came from: the tab's live connection, or a DNS lookup
+- both halves of the dual stack, with a count of A and AAAA records, the
+  addresses themselves, and an "in use" chip on the one the tab is using
 - the canonical name when the domain is a CNAME, and whether DNS-over-HTTPS was used
-- a copy button for the address
+
+Note that this is the address of the *site's server*. It is not your own
+address, so it will not match what a "what is my IP" page reports about you.
 
 ## How the address is determined
 
@@ -65,6 +70,10 @@ to be marked Android-compatible.
 ## Notes on Android
 
 `browser.dns` and `browser.webRequest` are both available on Firefox for Android
-(uBlock Origin relies on `dns.resolve` there). The button lives in the extensions
-section of the browser menu; badge text is a desktop-only nicety, so the
-IPv4/IPv6 state is carried by the icon itself.
+(uBlock Origin relies on `dns.resolve` there). The button lives under Extensions
+in the browser menu, where both the icon and the badge show the current state.
+
+That menu entry is drawn from the *default* browser action icon and badge, not
+the per-tab ones, so the add-on sets both: per-tab values keep each tab correct
+on desktop, and the default values are re-pointed at whichever tab is in front.
+Without that, the Android menu keeps showing the grey placeholder icon.

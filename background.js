@@ -24,20 +24,35 @@ function isIpLiteral(host) {
   return /^[0-9.]+$/.test(host) || host.includes(":");
 }
 
+async function isActiveTab(tabId) {
+  const [tab] = await browser.tabs.query({ active: true, currentWindow: true });
+  return Boolean(tab && tab.id === tabId);
+}
+
 async function paint(tabId) {
   const record = connections.get(tabId);
   const family = record ? familyOf(record.ip) : "unknown";
   const icon = ICONS[family];
-  const title = record && record.ip
-    ? `${record.host}\n${record.ip} (${family === "ipv6" ? "IPv6" : "IPv4"})`
-    : "IP Indicator";
+  const path = { 32: icon, 64: icon };
+  const familyLabel = family === "ipv6" ? "IPv6" : "IPv4";
+  // Firefox for Android renders this as the menu entry's label, so keep it to
+  // one line that starts with the part worth reading when truncated.
+  const title = record && record.ip ? `${familyLabel} · ${record.ip}` : "IP Indicator";
+
+  const badge = family === "unknown" ? "" : family === "ipv6" ? "6" : "4";
+  const badgeColor = family === "ipv6" ? "#4f46e5" : family === "ipv4" ? "#059669" : "#4b5563";
 
   try {
-    await browser.browserAction.setIcon({ tabId, path: { 32: icon, 64: icon } });
+    await browser.browserAction.setIcon({ tabId, path });
     await browser.browserAction.setTitle({ tabId, title });
-    if (browser.browserAction.setBadgeText) {
-      const text = family === "unknown" ? "" : family === "ipv6" ? "6" : "4";
-      await browser.browserAction.setBadgeText({ tabId, text });
+    await browser.browserAction.setBadgeText({ tabId, text: badge });
+    await browser.browserAction.setBadgeBackgroundColor({ tabId, color: badgeColor });
+    // Firefox for Android draws the browser menu entry from the default icon
+    // and badge rather than the per-tab ones, so mirror them for the tab in front.
+    if (await isActiveTab(tabId)) {
+      await browser.browserAction.setIcon({ path });
+      await browser.browserAction.setBadgeText({ text: badge });
+      await browser.browserAction.setBadgeBackgroundColor({ color: badgeColor });
     }
   } catch (e) {
     connections.delete(tabId);
@@ -67,6 +82,8 @@ browser.webRequest.onResponseStarted.addListener(
 );
 
 browser.tabs.onRemoved.addListener((tabId) => connections.delete(tabId));
+
+browser.tabs.onActivated.addListener(({ tabId }) => paint(tabId));
 
 async function lookup(host) {
   const result = { v4: [], v6: [], canonicalName: null, isTRR: null, error: null };
