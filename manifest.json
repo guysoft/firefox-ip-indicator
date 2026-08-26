@@ -3,6 +3,7 @@
   "name": "IP Indicator",
   "version": "1.0.0",
   "description": "Shows the IP address the current site is served from, and whether it is IPv4 or IPv6.",
+  "homepage_url": "https://github.com/guysoft/firefox-ip-indicator",
   "browser_specific_settings": {
     "gecko": {
       "id": "ip-indicator@guysoft",
@@ -10,6 +11,9 @@
       "data_collection_permissions": {
         "required": ["none"]
       }
+    },
+    "gecko_android": {
+      "strict_min_version": "142.0"
     }
   },
   "permissions": [

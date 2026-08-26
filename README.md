@@ -64,8 +64,33 @@ npx web-ext lint
 ```
 
 For a permanent Android install the package has to be signed by
-[addons.mozilla.org](https://addons.mozilla.org/developers/) and its listing has
-to be marked Android-compatible.
+[addons.mozilla.org](https://addons.mozilla.org/developers/). The manifest
+declares `gecko_android` so AMO lists it as Android-compatible.
+
+## Publish on addons.mozilla.org
+
+1. Build the zip with `npx web-ext build` (do not zip the parent folder).
+2. Sign in at [Add-on Developer Hub](https://addons.mozilla.org/developers/)
+   with a Firefox Account.
+3. Submit a New Add-on → **On this site** (listed).
+4. Upload `web-ext-artifacts/ip_indicator-1.0.0.zip`.
+5. Confirm Firefox **and** Firefox for Android. `gecko_android` in the
+   manifest should tick Android automatically.
+6. Source code: **No** — this zip *is* the source (plain JS, no minification).
+7. Categories: e.g. **Privacy & Security** and **Other**. Same on Android.
+8. Screenshots: at least one of the panel (desktop 1280×800 is the usual size;
+   Android can use a phone screenshot).
+9. Summary / description: see below. Privacy policy is not required: the
+   add-on collects no data (`data_collection_permissions: none`). DNS stays
+   inside Firefox's own resolver.
+10. Wait for automated signing, then human review. Listed add-ons usually
+    appear after that review.
+
+Suggested summary (250 characters max):
+
+> Shows the IP address a site is actually served from, and whether that
+> connection is IPv4 or IPv6. Dual-stack records are listed in the panel.
+> This is the server's address, not yours.
 
 ## Notes on Android
 
