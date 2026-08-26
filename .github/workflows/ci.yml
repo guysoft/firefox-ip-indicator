@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  lint-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Lint
+        run: npx --yes web-ext@8 lint --self-hosted
+
+      - name: Build
+        run: npx --yes web-ext@8 build --overwrite-dest
+
+      - name: Upload package
+        uses: actions/upload-artifact@v4
+        with:
+          name: ip-indicator
+          path: web-ext-artifacts/*.zip
+          if-no-files-found: error

@@ -1,0 +1,11 @@
+{
+  "name": "ip-indicator",
+  "private": true,
+  "description": "Firefox add-on that shows the IP a site is served from.",
+  "webExt": {
+    "ignoreFiles": [
+      "package.json",
+      ".github/**"
+    ]
+  }
+}

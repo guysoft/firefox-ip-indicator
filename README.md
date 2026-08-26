@@ -37,6 +37,28 @@ address, so it will not match what a "what is my IP" page reports about you.
 
 No data leaves the browser; DNS queries go through Firefox's own resolver.
 
+## GitHub Releases
+
+Each `v*` tag builds the zip in CI and attaches it to a GitHub Release
+(see [Releases](https://github.com/guysoft/firefox-ip-indicator/releases)).
+That file is **unsigned**. Use it to try the add-on; a permanent install still
+needs Mozilla's signature from AMO.
+
+Desktop, temporary install from a release asset:
+
+1. Download `ip_indicator-*.zip` or `ip-indicator-*.xpi`
+2. Open `about:debugging#/runtime/this-firefox`
+3. Load Temporary Add-on… and pick the downloaded file
+
+To cut a release, set `version` in `manifest.json`, commit, then:
+
+```bash
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+The tag must match `manifest.json` (so `v1.0.0` for version `1.0.0`).
+
 ## Install for development
 
 Desktop, temporary install:
